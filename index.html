@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Squidello | Cozey</title>
+<meta name="theme-color" content="#4E91FF">
+<style>
+  /* ── Reset & Base ─────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @font-face {
+    font-family: 'CozeyDisplay';
+    src: local('HafferXH-SemiBold'), local('Arial');
+    font-weight: 600;
+  }
+
+  :root {
+    --cozey-bg: #F7F8F6;
+    --cozey-dark: #1a1a1a;
+    --cozey-mid: #666;
+    --cozey-light: #999;
+    --cozey-border: #e0e0e0;
+    --cozey-blue: #4E91FF;
+    --cozey-green: #2d6a4f;
+    --cozey-cream: #f5f0e8;
+    --cozey-card: #ffffff;
+    --yarn-coral: #E8836B;
+    --yarn-sage: #9CAF88;
+    --yarn-lavender: #B4A7D6;
+    --yarn-butter: #F2D888;
+    --yarn-ocean: #6BA3BE;
+    --yarn-blush: #E8C4C4;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--cozey-bg);
+    color: var(--cozey-dark);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { display: block; max-width: 100%; }
+
+  /* ── Top Banner ───────────────────────────────────── */
+  .top-banner {
+    background: var(--cozey-dark);
+    color: #fff;
+    text-align: center;
+    padding: 8px 16px;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .top-banner span { display: inline-block; animation: marquee 25s linear infinite; }
+  @keyframes marquee {
+    0% { transform: translateX(60%); }
+    100% { transform: translateX(-100%); }
+  }
+  .top-banner a { color: #fff; text-decoration: underline; }
+
+  /* ── Nav ───────────────────────────────────────────── */
+  nav {
+    background: #fff;
+    border-bottom: 1px solid var(--cozey-border);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-left { display: flex; align-items: center; gap: 32px; }
+  .nav-logo {
+    font-family: 'CozeyDisplay', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--cozey-dark);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 24px; list-style: none; }
+  .nav-links li a {
+    text-decoration: none;
+    color: var(--cozey-dark);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .nav-links li a:hover { border-bottom-color: var(--cozey-dark); }
+  .nav-links li a.active { border-bottom-color: var(--cozey-dark); }
+  .nav-right { display: flex; align-items: center; gap: 20px; }
+  .cart-badge {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .cart-badge::after {
+    content: '1';
+    background: var(--yarn-coral);
+    color: #fff;
+    border-radius: 50%;
+    width: 18px; height: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    position: absolute;
+    top: -6px; right: -10px;
+  }
+
+  /* ── Breadcrumb ────────────────────────────────────── */
+  .breadcrumb {
+    padding: 12px 40px;
+    font-size: 12px;
+    color: var(--cozey-light);
+  }
+  .breadcrumb a { color: var(--cozey-light); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; }
+
+  /* ── PDP Layout ────────────────────────────────────── */
+  .pdp {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px 60px;
+  }
+
+  /* ── Gallery ───────────────────────────────────────── */
+  .gallery { position: relative; }
+  .gallery-main {
+    width: 100%;
+    aspect-ratio: 4/3;
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    background: #f0e8e4;
+    cursor: zoom-in;
+  }
+  .gallery-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+  }
+  .gallery-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--yarn-coral);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .gallery-ar {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s;
+    z-index: 2;
+  }
+  .gallery-nav:hover { transform: translateY(-50%) scale(1.08); }
+  .gallery-nav.prev { left: 12px; }
+  .gallery-nav.next { right: 12px; }
+
+  .gallery-thumbs {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .gallery-thumb {
+    width: 80px; height: 80px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+    background: #f0ebe6;
+  }
+  .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery-thumb.active { border-color: var(--cozey-dark); }
+  .gallery-thumb:hover { border-color: var(--cozey-light); }
+
+  /* ── Feature Image Cards (below gallery) ───────────── */
+  .feature-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .feature-card {
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 4/3;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .feature-card:hover { transform: scale(1.01); }
+  .feature-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .feature-card-label {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(6px);
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 2;
+  }
+
+  /* ── Config Panel ──────────────────────────────────── */
+  .config {
+    position: sticky;
+    top: 80px;
+    align-self: start;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+  .config-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+  }
+  .config h1 {
+    font-family: 'CozeyDisplay', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .config-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--cozey-mid);
+  }
+  .config-rating .stars { color: #f5a623; letter-spacing: 1px; }
+  .config-rating .count { text-decoration: underline; cursor: pointer; }
+
+  .config-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .config-tag {
+    background: var(--cozey-cream);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .config-step {
+    border-top: 1px solid var(--cozey-border);
+    padding: 20px 0;
+  }
+  .config-step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .config-step-label {
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .step-number {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--cozey-dark);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .config-step-help {
+    font-size: 12px;
+    color: var(--cozey-blue);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .size-options { display: flex; gap: 8px; }
+  .size-btn {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid var(--cozey-border);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+  .size-btn.active {
+    border-color: var(--cozey-dark);
+    background: var(--cozey-dark);
+    color: #fff;
+  }
+  .size-btn:hover:not(.active) { border-color: var(--cozey-light); }
+  .size-btn-name { font-size: 14px; font-weight: 600; display: block; }
+  .size-btn-dim { font-size: 11px; opacity: 0.7; margin-top: 2px; display: block; }
+
+  .style-options { display: flex; gap: 8px; }
+  .style-btn {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid var(--cozey-border);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    cursor: pointer;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .style-btn.active { border-color: var(--cozey-dark); }
+  .style-btn:hover:not(.active) { border-color: var(--cozey-light); }
+
+  .yarn-swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+  .yarn-swatch {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .yarn-swatch.active {
+    border-color: var(--cozey-dark);
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--cozey-dark);
+  }
+  .yarn-swatch:hover:not(.active) { transform: scale(1.1); }
+  .yarn-swatch-label {
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    white-space: nowrap;
+    color: var(--cozey-mid);
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .yarn-swatch:hover .yarn-swatch-label,
+  .yarn-swatch.active .yarn-swatch-label { opacity: 1; }
+
+  .config-options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .config-option {
+    padding: 8px;
+    border: 2px solid var(--cozey-border);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .config-option.active { border-color: var(--cozey-dark); }
+  .config-option:hover:not(.active) { border-color: var(--cozey-light); }
+  .config-option img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  /* ── Price & CTA ───────────────────────────────────── */
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 20px 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--cozey-border);
+  }
+  .price-current { font-size: 28px; font-weight: 700; }
+  .price-original {
+    font-size: 18px;
+    color: var(--cozey-light);
+    text-decoration: line-through;
+  }
+  .price-affirm { font-size: 12px; color: var(--cozey-mid); }
+  .price-affirm b { color: var(--cozey-dark); }
+
+  .add-to-cart {
+    width: 100%;
+    padding: 16px;
+    background: var(--cozey-dark);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+    position: relative;
+    overflow: hidden;
+  }
+  .add-to-cart:hover {
+    background: #333;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+  .add-to-cart:active { transform: translateY(0); }
+
+  .sub-cta {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--cozey-mid);
+  }
+  .sub-cta span { display: flex; align-items: center; gap: 4px; }
+
+  /* ── Sections Below Fold ───────────────────────────── */
+  .section-full {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+  .section-full h2 {
+    font-family: 'CozeyDisplay', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .section-full .subtitle {
+    color: var(--cozey-mid);
+    font-size: 16px;
+    margin-bottom: 32px;
+  }
+
+  /* ── Specs ─────────────────────────────────────────── */
+  .spec-row {
+    border-top: 1px solid var(--cozey-border);
+    padding: 20px 0;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    font-size: 14px;
+  }
+  .spec-label { font-weight: 600; }
+  .spec-value { color: var(--cozey-mid); }
+
+  /* ── Lifestyle Grid ────────────────────────────────── */
+  .lifestyle-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .lifestyle-card {
+    aspect-ratio: 1;
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .lifestyle-card:hover { transform: scale(1.02); }
+  .lifestyle-card img { width: 100%; height: 100%; object-fit: cover; }
+  .lifestyle-card .shop-tag {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(6px);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* ── Also Like ─────────────────────────────────────── */
+  .also-like-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .also-like-card {
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #fff;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .also-like-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .also-like-img {
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+  .also-like-img img { width: 100%; height: 100%; object-fit: cover; }
+  .also-like-info { padding: 12px 16px; }
+  .also-like-name { font-size: 14px; font-weight: 600; }
+  .also-like-price { font-size: 13px; color: var(--cozey-mid); margin-top: 4px; }
+  .also-like-tag {
+    display: inline-block;
+    margin-top: 6px;
+    background: var(--cozey-cream);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    color: var(--cozey-mid);
+  }
+
+  /* ── Reviews ───────────────────────────────────────── */
+  .reviews-section { background: #fff; padding: 60px 0; }
+  .reviews-inner { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+  .reviews-header { display: flex; gap: 48px; margin-bottom: 40px; }
+  .reviews-score { flex-shrink: 0; text-align: center; }
+  .reviews-score .big-number {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1;
+    font-family: 'CozeyDisplay', sans-serif;
+  }
+  .reviews-score .star-row { color: #f5a623; font-size: 18px; margin: 6px 0; letter-spacing: 2px; }
+  .reviews-score .review-count { font-size: 13px; color: var(--cozey-mid); }
+  .reviews-bars { flex: 1; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 13px; }
+  .bar-label { width: 20px; text-align: right; font-weight: 600; }
+  .bar-track { flex: 1; height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; background: var(--cozey-dark); transition: width 0.6s ease; }
+  .bar-pct { width: 35px; color: var(--cozey-light); font-size: 12px; }
+
+  .review-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .review-card {
+    background: var(--cozey-bg);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: transform 0.2s;
+  }
+  .review-card:hover { transform: translateY(-2px); }
+  .review-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .review-author { font-weight: 600; font-size: 14px; }
+  .review-stars { color: #f5a623; font-size: 14px; }
+  .review-date { font-size: 11px; color: var(--cozey-light); margin-bottom: 8px; }
+  .review-text { font-size: 13px; color: var(--cozey-mid); line-height: 1.6; }
+  .review-verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--cozey-green);
+    font-weight: 600;
+  }
+
+  /* ── Footer ────────────────────────────────────────── */
+  footer {
+    background: var(--cozey-dark);
+    color: #fff;
+    padding: 48px 40px 24px;
+  }
+  .footer-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+  .footer-col h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 8px; }
+  .footer-col ul li a {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+  .footer-col ul li a:hover { color: #fff; }
+  .footer-bottom {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+  }
+  .footer-social { display: flex; gap: 16px; }
+  .footer-social a {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+  .footer-social a:hover { color: #fff; }
+
+  /* ── Easter Egg Modal ──────────────────────────────── */
+  .easter-egg-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .easter-egg-overlay.show { display: flex; }
+  .easter-egg-modal {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 480px;
+    text-align: center;
+    animation: popIn 0.3s ease;
+  }
+  @keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .easter-egg-modal .ee-img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin: 0 auto 16px;
+  }
+  .easter-egg-modal h3 { font-size: 22px; margin-bottom: 8px; }
+  .easter-egg-modal p { color: var(--cozey-mid); font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+  .easter-egg-close {
+    padding: 10px 24px;
+    background: var(--cozey-dark);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* ── Toast ─────────────────────────────────────────── */
+  .toast {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: var(--cozey-dark);
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 200;
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+    max-width: 360px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+  .toast.show { transform: translateX(0); }
+
+  /* ── Responsive ────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .pdp { grid-template-columns: 1fr; }
+    .config { position: static; max-height: none; }
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .breadcrumb { padding: 12px 20px; }
+    .pdp { padding: 0 20px 40px; }
+    .section-full { padding: 40px 20px; }
+    .reviews-inner { padding: 0 20px; }
+    .review-cards { grid-template-columns: 1fr; }
+    .also-like-grid { grid-template-columns: repeat(2, 1fr); }
+    .lifestyle-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    .reviews-header { flex-direction: column; gap: 24px; }
+    .spec-row { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Top Banner ────────────────────────────────────── -->
+<div class="top-banner">
+  <span>
+    Handcrafted in Montreal with Love 🧶 &nbsp;|&nbsp; Artisan Yarn Shipping (3-47 business days) &nbsp;|&nbsp; Free Yarn Swatches &nbsp;|&nbsp; <a href="#">Track My Squid</a> &nbsp;|&nbsp; Crochet Design Consultations &nbsp;|&nbsp; <a href="#">Sara's Workshop Tour</a> &nbsp;|&nbsp; 🦑
+  </span>
+</div>
+
+<!-- ── Nav ────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-left">
+    <a class="nav-logo" href="#">cozey</a>
+    <ul class="nav-links">
+      <li><a href="#" class="active">Crochet Seating</a></li>
+      <li><a href="#">Yarn Bedroom</a></li>
+      <li><a href="#">Knit Dining</a></li>
+      <li><a href="#">Outdoor Weave</a></li>
+      <li><a href="#">Tiny Tables</a></li>
+      <li><a href="#">Yarn Storage</a></li>
+      <li><a href="#">Washable Yarn Rugs</a></li>
+      <li><a href="#">Crochet Accessories</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <span style="cursor:pointer; font-size:18px;" title="Search">🔍</span>
+    <span style="cursor:pointer; font-size:18px;" title="Account">👤</span>
+    <span class="cart-badge" title="Your Cart" onclick="showToast('Your cart contains: 1x Crochet Squid (Coral Reef) 🦑')">🛒</span>
+  </div>
+</nav>
+
+<!-- ── Breadcrumb ─────────────────────────────────────── -->
+<div class="breadcrumb">
+  <a href="#">Home</a> <span>/</span>
+  <a href="#">Crochet Seating</a> <span>/</span>
+  <strong>Squidello</strong>
+</div>
+
+<!-- ── PDP ─────────────────────────────────────────────── -->
+<div class="pdp">
+
+  <!-- Gallery Column -->
+  <div class="gallery">
+    <div class="gallery-main" id="galleryMain">
+      <span class="gallery-badge">Sara's Pick</span>
+      <img id="heroImg" src="images/squid-front-big.jpg" alt="Squidello - The Sara Shin Crochet Collection">
+      <button class="gallery-nav prev" onclick="prevImage()">&#8249;</button>
+      <button class="gallery-nav next" onclick="nextImage()">&#8250;</button>
+      <div class="gallery-ar" onclick="showEasterEgg('ar')">
+        📱 View in AR (Place a squid on your couch!)
+      </div>
+    </div>
+
+    <div class="gallery-thumbs" id="thumbStrip">
+      <div class="gallery-thumb active" onclick="selectThumb(0)"><img src="images/squid-front-big.jpg" alt="Front view"></div>
+      <div class="gallery-thumb" onclick="selectThumb(1)"><img src="images/squid-hero.jpg" alt="Hero angle"></div>
+      <div class="gallery-thumb" onclick="selectThumb(2)"><img src="images/squid-side.jpg" alt="Side view"></div>
+      <div class="gallery-thumb" onclick="selectThumb(3)"><img src="images/squid-angle-left.jpg" alt="Left angle"></div>
+      <div class="gallery-thumb" onclick="selectThumb(4)"><img src="images/squid-small.jpg" alt="Compact size"></div>
+      <div class="gallery-thumb" onclick="selectThumb(5)"><img src="images/squid-on-couch.jpg" alt="Lifestyle - on couch"></div>
+      <div class="gallery-thumb" onclick="selectThumb(6)"><img src="images/cream-octopus.jpg" alt="Octopus companion"></div>
+      <div class="gallery-thumb" onclick="selectThumb(7)"><img src="images/pink-octopus-books.jpg" alt="On bookshelf"></div>
+      <div class="gallery-thumb" onclick="selectThumb(8)"><img src="images/treasure-chest-squid.jpg" alt="Storage chest"></div>
+    </div>
+
+  </div>
+
+  <!-- Config Column -->
+  <div class="config">
+    <div class="config-title-row">
+      <div>
+        <h1>Squidello</h1>
+        <div style="font-size:13px; color:var(--cozey-mid); margin-bottom:4px;">The Sara Shin Crochet Collection</div>
+      </div>
+      <span style="font-size:24px; cursor:pointer;" onclick="showToast('Saved to your Crochet Wishlist 🧶')" title="Save to wishlist">&#9825;</span>
+    </div>
+
+    <div class="config-rating">
+      <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <strong>4.9</strong>
+      <span class="count">(2,091 reviews)</span>
+      &middot;
+      <span style="font-size:11px;">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%232d6a4f'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E" alt="" style="vertical-align: middle;">
+        Trustpilot Verified
+      </span>
+    </div>
+
+    <div class="config-tags">
+      <span class="config-tag">🏠 30-day cuddle trial</span>
+      <span class="config-tag">🧶 Lifetime stitch warranty</span>
+      <span class="config-tag">💳 Affirm: $4.17/mo</span>
+    </div>
+
+    <!-- Step 1: Size -->
+    <div class="config-step">
+      <div class="config-step-header">
+        <span class="config-step-label"><span class="step-number">1</span> Pick your size</span>
+        <span class="config-step-help" onclick="showToast('Squidello: Fits on a bookshelf. Squidello XL: Replaces your actual couch.')">Size guide</span>
+      </div>
+      <div class="size-options">
+        <button class="size-btn active" onclick="selectSize(this)">
+          <span class="size-btn-name">Squidello</span>
+          <span class="size-btn-dim">15cm x 12cm x 10cm</span>
+        </button>
+        <button class="size-btn" onclick="selectSize(this)">
+          <span class="size-btn-name">Squidello XL</span>
+          <span class="size-btn-dim">30cm x 25cm x 20cm</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Style -->
+    <div class="config-step">
+      <div class="config-step-header">
+        <span class="config-step-label"><span class="step-number">2</span> Pick your tentacle style</span>
+      </div>
+      <div class="style-options">
+        <button class="style-btn active" onclick="selectStyle(this)">Original Curl</button>
+        <button class="style-btn" onclick="selectStyle(this)">Wavy Flow</button>
+        <button class="style-btn" onclick="selectStyle(this)">Cozey Twist&trade;</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Yarn -->
+    <div class="config-step">
+      <div class="config-step-header">
+        <span class="config-step-label"><span class="step-number">3</span> Pick your yarn</span>
+        <span class="config-step-help">Free yarn swatches</span>
+      </div>
+      <div style="font-size:12px; color:var(--cozey-mid); margin-bottom:10px;" id="yarnLabel">
+        <strong>Coral Reef</strong> &middot; Aquaforte&trade; Yarn
+      </div>
+      <div class="yarn-swatches">
+        <div class="yarn-swatch active" style="background:var(--yarn-coral);" onclick="selectYarn(this, 'Coral Reef')">
+          <span class="yarn-swatch-label">Coral Reef</span>
+        </div>
+        <div class="yarn-swatch" style="background:var(--yarn-sage);" onclick="selectYarn(this, 'Sage Garden')">
+          <span class="yarn-swatch-label">Sage Garden</span>
+        </div>
+        <div class="yarn-swatch" style="background:var(--yarn-lavender);" onclick="selectYarn(this, 'Lavender Dream')">
+          <span class="yarn-swatch-label">Lavender Dream</span>
+        </div>
+        <div class="yarn-swatch" style="background:var(--yarn-butter);" onclick="selectYarn(this, 'Buttercream')">
+          <span class="yarn-swatch-label">Buttercream</span>
+        </div>
+        <div class="yarn-swatch" style="background:var(--yarn-ocean);" onclick="selectYarn(this, 'Ocean Mist')">
+          <span class="yarn-swatch-label">Ocean Mist</span>
+        </div>
+        <div class="yarn-swatch" style="background:var(--yarn-blush);" onclick="selectYarn(this, 'Sesame Blush')">
+          <span class="yarn-swatch-label">Sesame Blush</span>
+        </div>
+        <div class="yarn-swatch" style="background:#1a1a1a;" onclick="selectYarn(this, 'Midnight Ink')">
+          <span class="yarn-swatch-label">Midnight Ink</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Configuration -->
+    <div class="config-step">
+      <div class="config-step-header">
+        <span class="config-step-label"><span class="step-number">4</span> Choose your configuration</span>
+      </div>
+      <div class="config-options-grid">
+        <div class="config-option active" onclick="selectConfig(this)">
+          <img src="images/squid-small.jpg" alt="Solo Squid">
+          Solo Squid
+        </div>
+        <div class="config-option" onclick="selectConfig(this)">
+          <img src="images/squid-on-couch.jpg" alt="Squid + Couch">
+          Squid + Chaise
+        </div>
+        <div class="config-option" onclick="selectConfig(this)">
+          <img src="images/cream-octopus.jpg" alt="Squid + Octopus">
+          Squid + Octopus
+        </div>
+        <div class="config-option" onclick="selectConfig(this)">
+          <img src="images/cream-couch.jpg" alt="Full Crochet Sofa">
+          Full Crochet Sofa
+        </div>
+        <div class="config-option" onclick="selectConfig(this)">
+          <img src="images/pink-couch.jpg" alt="Pink Couch">
+          Pink Sectional
+        </div>
+        <div class="config-option" onclick="selectConfig(this, true)">
+          <img src="images/crochet-ring.jpg" alt="The One Ring">
+          The One Ring
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5: Protection -->
+    <div class="config-step">
+      <div class="config-step-header">
+        <span class="config-step-label"><span class="step-number">5</span> Protection plan</span>
+      </div>
+      <div class="style-options">
+        <button class="style-btn" onclick="selectStyle(this)">No thanks</button>
+        <button class="style-btn active" onclick="selectStyle(this)">Tentacle Guard&trade; +$9</button>
+      </div>
+    </div>
+
+    <!-- Price -->
+    <div class="price-row">
+      <span class="price-current" id="currentPrice">$49.99</span>
+      <span class="price-original">$2,499</span>
+      <span style="background:var(--yarn-coral); color:#fff; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:700;">SAVE $2,449</span>
+    </div>
+    <div class="price-affirm">
+      or <b>$4.17/mo</b> with <b style="color:var(--cozey-dark);">affirm</b>. <a href="#" style="color:var(--cozey-blue); font-size:12px;">Learn more</a>
+    </div>
+
+    <!-- CTA -->
+    <div style="margin-top:16px;">
+      <button class="add-to-cart" id="addToCartBtn" onclick="addToCart()">
+        Add to Cart &mdash; $49.99
+      </button>
+      <div class="sub-cta">
+        <span>🚚 Free shipping</span>
+        <span>↩️ 30-day cuddle trial</span>
+        <span>🧶 Ships from Sara's desk</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Feature Cards ──────────────────────────────────── -->
+<div style="max-width:1400px; margin:0 auto; padding:0 40px 40px;">
+  <div class="feature-cards" style="grid-template-columns:repeat(4,1fr);">
+    <div class="feature-card" onclick="showEasterEgg('cloud')">
+      <img src="images/cloud-1.jpg" alt="Cloud-like squishiness">
+      <div class="feature-card-label">Cloud-like squishiness &#8250;</div>
+    </div>
+    <div class="feature-card" onclick="showEasterEgg('wash')">
+      <img src="images/washing-machine.jpg" alt="Machine washable yarn">
+      <div class="feature-card-label">Machine-washable yarn &#8250;</div>
+    </div>
+    <div class="feature-card" onclick="showEasterEgg('storage')">
+      <img src="images/treasure-chest-squid.jpg" alt="Hidden tentacle storage">
+      <div class="feature-card-label">Hidden tentacle storage &#8250;</div>
+    </div>
+    <div class="feature-card" onclick="showEasterEgg('modular')">
+      <img src="images/turtle-coral.jpg" alt="Fully modular creatures">
+      <div class="feature-card-label">Fully modular creatures &#8250;</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Specs ──────────────────────────────────────────── -->
+<div class="section-full" style="padding-top:20px; padding-bottom:40px;">
+  <h3 style="font-size:18px; font-weight:700; margin-bottom:16px;">Specifications</h3>
+  <div class="spec-row">
+    <div class="spec-label">Material</div>
+    <div class="spec-value">100% Artisan Acrylic Yarn (Cozey Aquaforte&trade; equivalent, but crocheted)</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Tentacles</div>
+    <div class="spec-value">8 (standard) &middot; 10 (XL) &middot; Varies by creature type</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Squishability</div>
+    <div class="spec-value">9.4 / 10 &mdash; Independently verified by the Cozey Comfort Lab</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Stitch Count</div>
+    <div class="spec-value">~14,000 hand stitches per creature. Each stitch placed with intention.</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Fill</div>
+    <div class="spec-value">Premium polyester fiberfill, hypoallergenic, cloud-density stuffing</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Lead Time</div>
+    <div class="spec-value">3-47 business days (Sara crochets between meetings)</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Care</div>
+    <div class="spec-value">Gentle cycle cold, lay flat to dry, give compliments regularly</div>
+  </div>
+  <div class="spec-row" style="border-bottom:1px solid var(--cozey-border);">
+    <div class="spec-label">Warranty</div>
+    <div class="spec-value">Lifetime emotional support warranty. 5-year structural tentacle guarantee.</div>
+  </div>
+</div>
+
+<!-- ── Get Inspired ──────────────────────────────────── -->
+<div class="section-full" style="background:#fff;">
+  <p style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--cozey-light); margin-bottom:4px;">Cozey at your home</p>
+  <h2>Get inspired</h2>
+  <p class="subtitle">Real Cozey team members. Real crochet creatures. Real bookshelf placements.</p>
+  <div class="lifestyle-grid">
+    <div class="lifestyle-card">
+      <img src="images/squid-on-couch-2.jpg" alt="Geoffrey's Bookshelf">
+      <span class="shop-tag">Geoffrey's Bookshelf</span>
+    </div>
+    <div class="lifestyle-card">
+      <img src="images/pink-octopus-books-2.jpg" alt="Sara's Workshop">
+      <span class="shop-tag">Sara's Workshop</span>
+    </div>
+    <div class="lifestyle-card">
+      <img src="images/armchair-lamp.jpg" alt="The Cozey Living Room">
+      <span class="shop-tag">The Cozey Living Room</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── You Might Also Like ───────────────────────────── -->
+<div class="section-full">
+  <p style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--cozey-light); margin-bottom:4px;">Suggestions</p>
+  <h2>You might also like</h2>
+  <p class="subtitle">More handcrafted goodness from the Sara Shin Collection</p>
+  <div class="also-like-grid">
+    <div class="also-like-card" onclick="showToast('The Ciello Couch Cozy is currently backordered. Sara is in a meeting.')">
+      <div class="also-like-img"><img src="images/cream-couch-closeup.jpg" alt="Ciello Couch Cozy"></div>
+      <div class="also-like-info">
+        <div class="also-like-name">Ciello Couch Cozy</div>
+        <div class="also-like-price">From $89.99</div>
+        <span class="also-like-tag">Mini crochet replica of the actual Ciello</span>
+      </div>
+    </div>
+    <div class="also-like-card" onclick="showToast('The Groomsman Suit is made-to-order. Squid theme not included.')">
+      <div class="also-like-img"><img src="images/groom-figure.jpg" alt="Crochet Groomsman Suit"></div>
+      <div class="also-like-info">
+        <div class="also-like-name">Crochet Groomsman Suit</div>
+        <div class="also-like-price">From $149.99</div>
+        <span class="also-like-tag">No squid theme tho unfortunately</span>
+      </div>
+    </div>
+    <div class="also-like-card" onclick="showToast('One Ring to Crochet Them All... coming soon.')">
+      <div class="also-like-img"><img src="images/ring-closeup.jpg" alt="The One Ring (Crocheted)"></div>
+      <div class="also-like-info">
+        <div class="also-like-name">The One Ring (Crocheted)</div>
+        <div class="also-like-price">$29.99</div>
+        <span class="also-like-tag">One ring to rule them all plz</span>
+      </div>
+    </div>
+    <div class="also-like-card" onclick="showToast('Wedding attire for squids: coming Spring 2027 🦑👰')">
+      <div class="also-like-img"><img src="images/bear-heart.jpg" alt="Comfort Bear"></div>
+      <div class="also-like-info">
+        <div class="also-like-name">Cozey Comfort Bear</div>
+        <div class="also-like-price">$39.99</div>
+        <span class="also-like-tag">Comes with heart. Emotions included free.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── More Collection ────────────────────────────────── -->
+<div class="section-full" style="background:#fff;">
+  <p style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--cozey-light); margin-bottom:4px;">The full collection</p>
+  <h2>Sara's Crochet Universe</h2>
+  <p class="subtitle">Every piece handcrafted between meetings, standups, and sprint planning.</p>
+  <div style="display:grid; grid-template-columns:repeat(6,1fr); gap:12px;">
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('The Comfort Cloud ships pre-hugged.')">
+      <div class="also-like-img"><img src="images/cloud-1.jpg" alt="Comfort Cloud"></div>
+      <div class="also-like-info"><div class="also-like-name">Comfort Cloud</div><div class="also-like-price">$34.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('The Blue Whale is our largest creature. It has feelings.')">
+      <div class="also-like-img"><img src="images/blue-whale.jpg" alt="Blue Whale"></div>
+      <div class="also-like-info"><div class="also-like-name">Blue Whale</div><div class="also-like-price">$59.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Warning: Cat may judge you from its basket.')">
+      <div class="also-like-img"><img src="images/cat-basket.jpg" alt="Cat Basket"></div>
+      <div class="also-like-info"><div class="also-like-name">Cozy Cat Basket</div><div class="also-like-price">$44.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Green snake: non-venomous, 100% yarn-based.')">
+      <div class="also-like-img"><img src="images/green-snake.jpg" alt="Garden Snake"></div>
+      <div class="also-like-info"><div class="also-like-name">Garden Snake</div><div class="also-like-price">$39.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Pig planter: real succulent not included. Pig feelings are real though.')">
+      <div class="also-like-img"><img src="images/pig-planter.jpg" alt="Pig Planter"></div>
+      <div class="also-like-info"><div class="also-like-name">Pig Planter</div><div class="also-like-price">$29.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Boba tea: not drinkable. We tried.')">
+      <div class="also-like-img"><img src="images/boba-tea.jpg" alt="Boba Tea"></div>
+      <div class="also-like-info"><div class="also-like-name">Boba Tea</div><div class="also-like-price">$24.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Taco Tuesday just became Taco Every Day.')">
+      <div class="also-like-img"><img src="images/taco.jpg" alt="Taco"></div>
+      <div class="also-like-info"><div class="also-like-name">Taco</div><div class="also-like-price">$19.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Cookie & Milk: the friendship we all deserve.')">
+      <div class="also-like-img"><img src="images/cookie-milk.jpg" alt="Cookie & Milk"></div>
+      <div class="also-like-info"><div class="also-like-name">Cookie &amp; Milk</div><div class="also-like-price">$27.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('This penguin has better posture than you.')">
+      <div class="also-like-img"><img src="images/penguin.jpg" alt="Penguin"></div>
+      <div class="also-like-info"><div class="also-like-name">Penguin</div><div class="also-like-price">$34.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Cat stump: for cats who are also stumps.')">
+      <div class="also-like-img"><img src="images/cat-stump.jpg" alt="Cat Stump"></div>
+      <div class="also-like-info"><div class="also-like-name">Cat Stump</div><div class="also-like-price">$44.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Retro gaming, now in yarn.')">
+      <div class="also-like-img"><img src="images/game-controller.jpg" alt="Game Controller"></div>
+      <div class="also-like-info"><div class="also-like-name">Game Controller</div><div class="also-like-price">$29.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Strawberry cake: zero calories, infinite cuteness.')">
+      <div class="also-like-img"><img src="images/strawberry-cake.jpg" alt="Strawberry Cake"></div>
+      <div class="also-like-info"><div class="also-like-name">Strawberry Cake</div><div class="also-like-price">$32.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('This hedgehog holds a strawberry and your heart.')">
+      <div class="also-like-img"><img src="images/hedgehog.jpg" alt="Hedgehog"></div>
+      <div class="also-like-info"><div class="also-like-name">Hedgehog</div><div class="also-like-price">$34.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Armchair Lamp Combo: furniture AND lighting, crocheted.')">
+      <div class="also-like-img"><img src="images/armchair-lamp.jpg" alt="Armchair & Lamp"></div>
+      <div class="also-like-info"><div class="also-like-name">Armchair &amp; Lamp</div><div class="also-like-price">$54.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Fruit cart: now serving 100% yarn-based produce.')">
+      <div class="also-like-img"><img src="images/fruit-cart.jpg" alt="Fruit Cart"></div>
+      <div class="also-like-info"><div class="also-like-name">Fruit Cart</div><div class="also-like-price">$44.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Ice cream: will not melt. Ever. That is both a feature and slightly unsettling.')">
+      <div class="also-like-img"><img src="images/ice-cream.jpg" alt="Ice Cream"></div>
+      <div class="also-like-info"><div class="also-like-name">Ice Cream Cone</div><div class="also-like-price">$22.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Vinyl vibes. The record player does not actually play music. But it looks incredible.')">
+      <div class="also-like-img"><img src="images/record-player.jpg" alt="Record Player"></div>
+      <div class="also-like-info"><div class="also-like-name">Record Player</div><div class="also-like-price">$49.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('The mushroom has a tiny door. We do not know where it leads.')">
+      <div class="also-like-img"><img src="images/mushroom.jpg" alt="Mushroom House"></div>
+      <div class="also-like-info"><div class="also-like-name">Mushroom House</div><div class="also-like-price">$29.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Princess bed: for squids who deserve the royal treatment.')">
+      <div class="also-like-img"><img src="images/princess-bed.jpg" alt="Princess Bed"></div>
+      <div class="also-like-info"><div class="also-like-name">Princess Bed</div><div class="also-like-price">$39.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Sheep goes baaa. Silently. In yarn form.')">
+      <div class="also-like-img"><img src="images/sheep.jpg" alt="Sheep"></div>
+      <div class="also-like-info"><div class="also-like-name">Sleepy Sheep</div><div class="also-like-price">$34.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Bunny table: functional AND adorable. Sara really outdid herself.')">
+      <div class="also-like-img"><img src="images/bunny-table.jpg" alt="Bunny Table"></div>
+      <div class="also-like-info"><div class="also-like-name">Bunny Side Table</div><div class="also-like-price">$44.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Cactus dresser: stores your yarn AND your dreams.')">
+      <div class="also-like-img"><img src="images/cactus-dresser.jpg" alt="Cactus Dresser"></div>
+      <div class="also-like-info"><div class="also-like-name">Cactus Dresser</div><div class="also-like-price">$59.99</div></div>
+    </div>
+    <div class="also-like-card" style="cursor:pointer;" onclick="showToast('Love letter: sending warm fuzzy feelings, literally.')">
+      <div class="also-like-img"><img src="images/love-letter.jpg" alt="Love Letter"></div>
+      <div class="also-like-info"><div class="also-like-name">Love Letter</div><div class="also-like-price">$19.99</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Reviews ────────────────────────────────────────── -->
+<div class="reviews-section">
+  <div class="reviews-inner">
+    <p style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--cozey-light); margin-bottom:4px;">What people are saying</p>
+    <h2 style="font-family:'CozeyDisplay',sans-serif; font-size:36px; font-weight:700; margin-bottom:32px;">Feel the Cozey love.</h2>
+
+    <div class="reviews-header">
+      <div class="reviews-score">
+        <div class="big-number">4.9</div>
+        <div class="star-row">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="review-count">Based on 2,091 reviews</div>
+        <div style="margin-top:8px;">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='20' viewBox='0 0 80 20'%3E%3Crect fill='%2300b67a' width='80' height='20' rx='3'/%3E%3Ctext x='40' y='14' text-anchor='middle' fill='white' font-size='10' font-weight='bold' font-family='sans-serif'%3ETrustpilot%3C/text%3E%3C/svg%3E" alt="Trustpilot">
+        </div>
+      </div>
+      <div class="reviews-bars">
+        <div class="bar-row"><span class="bar-label">5</span><div class="bar-track"><div class="bar-fill" style="width:82%"></div></div><span class="bar-pct">82%</span></div>
+        <div class="bar-row"><span class="bar-label">4</span><div class="bar-track"><div class="bar-fill" style="width:12%"></div></div><span class="bar-pct">12%</span></div>
+        <div class="bar-row"><span class="bar-label">3</span><div class="bar-track"><div class="bar-fill" style="width:4%"></div></div><span class="bar-pct">4%</span></div>
+        <div class="bar-row"><span class="bar-label">2</span><div class="bar-track"><div class="bar-fill" style="width:1%"></div></div><span class="bar-pct">1%</span></div>
+        <div class="bar-row"><span class="bar-label">1</span><div class="bar-track"><div class="bar-fill" style="width:1%"></div></div><span class="bar-pct">1%</span></div>
+      </div>
+    </div>
+
+    <div class="review-cards">
+      <div class="review-card">
+        <div class="review-card-header">
+          <span class="review-author">Geoffrey R.</span>
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        </div>
+        <div class="review-date">March 27, 2026 &middot; Verified Purchase</div>
+        <div class="review-text">
+          Huge thanks again Sara for the squids!! They've officially earned a prime spot on the bookshelf at home! 🦑 The stitch quality is incredible &mdash; better than the actual Ciello tbh. 10/10 would replace all my furniture with crochet.
+        </div>
+        <span class="review-verified">&#10003; Verified Cozey Employee</span>
+      </div>
+
+      <div class="review-card">
+        <div class="review-card-header">
+          <span class="review-author">Sam M.</span>
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        </div>
+        <div class="review-date">March 23, 2026 &middot; Wishlist Item</div>
+        <div class="review-text">
+          I would like a crocheted one ring to rule them all plz. Still waiting. Sara, if you're reading this, I'm serious. The Squidello is great but I need that ring. Will trade tech support for yarn goods.
+        </div>
+        <span class="review-verified">&#10003; Verified Cozey Employee</span>
+      </div>
+
+      <div class="review-card">
+        <div class="review-card-header">
+          <span class="review-author">Alex K.</span>
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+        </div>
+        <div class="review-date">March 28, 2026 &middot; Custom Order</div>
+        <div class="review-text">
+          Asked Sara to crochet my groomsman suit. She said yes. Only concern: no squid theme unfortunately. Deducting one star until squids are added to the wedding package. The regular creatures are still immaculate though.
+        </div>
+        <span class="review-verified">&#10003; Verified Cozey Employee</span>
+      </div>
+
+      <div class="review-card">
+        <div class="review-card-header">
+          <span class="review-author">Fred L.</span>
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        </div>
+        <div class="review-date">March 30, 2026 &middot; Executive Review</div>
+        <div class="review-text">
+          I approved the Q2 budget for crochet operations. The ROI on employee joy is off the charts. Considering pivoting the entire company to handcrafted yarn goods. Investors are... cautiously optimistic.
+        </div>
+        <span class="review-verified">&#10003; Verified Cozey Executive</span>
+      </div>
+
+      <div class="review-card">
+        <div class="review-card-header">
+          <span class="review-author">Menan S.</span>
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        </div>
+        <div class="review-date">April 1, 2026 &middot; CTO Review</div>
+        <div class="review-text">
+          I've rewritten the entire tech roadmap to prioritize yarn-driven development. Our new microservices architecture is inspired by tentacle modularity. Each service is independently deployable, just like each tentacle is independently curlable.
+        </div>
+        <span class="review-verified">&#10003; Verified Cozey CTO</span>
+      </div>
+
+      <div class="review-card">
+        <div class="review-card-header">
+          <span class="review-author">Sara S.</span>
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        </div>
+        <div class="review-date">March 27, 2026 &middot; The Artist</div>
+        <div class="review-text">
+          this is my fav part of the hobby, when i see my crafts bring joy to others - this is why i barely keep anything I make 🫶🏻 Let me know when u need me to crochet wedding attire for the squids.
+        </div>
+        <span class="review-verified">&#10003; Verified Crochet Artisan &amp; Cozey Legend</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Newsletter ─────────────────────────────────────── -->
+<div class="section-full" style="background:var(--cozey-cream); text-align:center;">
+  <h2 style="font-family:'CozeyDisplay',sans-serif;">Stay in the loop (stitch)</h2>
+  <p class="subtitle">Get notified when Sara drops new creatures. No spam, only yarn.</p>
+  <div style="display:flex; gap:8px; max-width:400px; margin:0 auto;">
+    <input type="email" placeholder="your.email@cozey.ca" style="flex:1; padding:12px 16px; border:1px solid var(--cozey-border); border-radius:var(--radius-sm); font-size:14px; outline:none;">
+    <button onclick="showToast('Subscribed! You\'ll receive your first yarn swatch in 3-47 business days. 🧶')" style="padding:12px 20px; background:var(--cozey-dark); color:#fff; border:none; border-radius:var(--radius-sm); font-weight:600; cursor:pointer;">Sign Up</button>
+  </div>
+</div>
+
+<!-- ── Footer ─────────────────────────────────────────── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">New Yarn Arrivals</a></li>
+        <li><a href="#">Best Selling Squids</a></li>
+        <li><a href="#">Crochet Seating</a></li>
+        <li><a href="#">Yarn Bedroom</a></li>
+        <li><a href="#">Knit Dining</a></li>
+        <li><a href="#">The One Ring Collection</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Cozey (Yarn Division)</a></li>
+        <li><a href="#">Sara's Workshop</a></li>
+        <li><a href="#">Careers (Crochet Team)</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Yarn Help Center</a></li>
+        <li><a href="#">Tentacle Shipping</a></li>
+        <li><a href="#">Returns &amp; Unraveling</a></li>
+        <li><a href="#">Stitch Warranty</a></li>
+        <li><a href="#">Yarn Financing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <ul>
+        <li><a href="#">Instagram (mostly squid pics)</a></li>
+        <li><a href="#">TikTok (crochet ASMR)</a></li>
+        <li><a href="#">YouTube (Sara's tutorials)</a></li>
+        <li><a href="#">LinkedIn (serious business squids)</a></li>
+        <li><a href="#">Pinterest (yarn mood boards)</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Cozey Inc. (Yarn Division). All rights reserved. No squids were harmed.</span>
+    <div class="footer-social">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Yarn</a>
+      <a href="#">Accessibility</a>
+      <a href="#" onclick="event.preventDefault(); showEasterEgg('secret')">Sitemap</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ── Easter Egg Modal ──────────────────────────────── -->
+<div class="easter-egg-overlay" id="easterEggOverlay" onclick="closeEasterEgg(event)">
+  <div class="easter-egg-modal" id="easterEggModal">
+    <img class="ee-img" id="eeImg" src="images/squid-front-big.jpg" alt="">
+    <h3 id="eeTitle">Title</h3>
+    <p id="eeText">Text</p>
+    <button class="easter-egg-close" onclick="closeEasterEgg()">Got it</button>
+  </div>
+</div>
+
+<!-- ── Toast ──────────────────────────────────────────── -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Gallery Carousel ─────────────────────────────────
+const galleryImages = [
+  'images/squid-front-big.jpg',
+  'images/squid-hero.jpg',
+  'images/squid-side.jpg',
+  'images/squid-angle-left.jpg',
+  'images/squid-small.jpg',
+  'images/squid-on-couch.jpg',
+  'images/cream-octopus.jpg',
+  'images/pink-octopus-books.jpg',
+  'images/treasure-chest-squid.jpg',
+];
+let currentIdx = 0;
+
+function updateGallery() {
+  document.getElementById('heroImg').src = galleryImages[currentIdx];
+  document.querySelectorAll('.gallery-thumb').forEach((t, i) => {
+    t.classList.toggle('active', i === currentIdx);
+  });
+}
+
+function nextImage() {
+  currentIdx = (currentIdx + 1) % galleryImages.length;
+  updateGallery();
+}
+
+function prevImage() {
+  currentIdx = (currentIdx - 1 + galleryImages.length) % galleryImages.length;
+  updateGallery();
+}
+
+function selectThumb(idx) {
+  currentIdx = idx;
+  updateGallery();
+}
+
+// ── Config Selectors ─────────────────────────────────
+function selectSize(btn) {
+  btn.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (btn.textContent.includes('XL')) {
+    document.getElementById('currentPrice').textContent = '$79.99';
+    document.getElementById('addToCartBtn').textContent = 'Add to Cart \u2014 $79.99';
+  } else {
+    document.getElementById('currentPrice').textContent = '$49.99';
+    document.getElementById('addToCartBtn').textContent = 'Add to Cart \u2014 $49.99';
+  }
+}
+
+function selectStyle(btn) {
+  btn.parentElement.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function selectYarn(el, name) {
+  document.querySelectorAll('.yarn-swatch').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('yarnLabel').innerHTML = '<strong>' + name + '</strong> &middot; Aquaforte&trade; Yarn';
+}
+
+function selectConfig(el, isRing) {
+  document.querySelectorAll('.config-option').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  if (isRing) showEasterEgg('ring');
+}
+
+// ── Add to Cart ──────────────────────────────────────
+let cartClicks = 0;
+function addToCart() {
+  cartClicks++;
+  const messages = [
+    "🦑 Added to cart! Sara has been notified and is reaching for her crochet hook.",
+    "🧶 Another one! Sara is now crocheting during standup.",
+    "🐙 The yarn supply chain is straining under demand!",
+    "⚠️ Sara has run out of yarn. Raiding the office supply closet.",
+    "🚨 YARN SHORTAGE ALERT: Sara is unraveling her own sweater to fulfill orders.",
+    "💀 Sara has transcended physical form. She IS the yarn now.",
+    "🌌 The cosmic crochet entity that was once Sara has blessed your order.",
+  ];
+  showToast(messages[Math.min(cartClicks - 1, messages.length - 1)]);
+
+  const btn = document.getElementById('addToCartBtn');
+  btn.style.background = 'var(--yarn-coral)';
+  btn.textContent = '\u2713 Added!';
+  setTimeout(() => {
+    btn.style.background = '';
+    const price = document.getElementById('currentPrice').textContent;
+    btn.textContent = 'Add to Cart \u2014 ' + price;
+  }, 1500);
+}
+
+// ── Toast ────────────────────────────────────────────
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+// ── Easter Eggs ──────────────────────────────────────
+const easterEggs = {
+  ar: {
+    img: 'images/squid-on-couch.jpg',
+    title: 'AR Squid Placement',
+    text: 'Point your camera at any surface to place a virtual crochet squid. Warning: once placed, squids become emotionally attached to their location and may guilt-trip you if moved.'
+  },
+  cloud: {
+    img: 'images/cloud-1.jpg',
+    title: 'Cloud-Like Squishiness',
+    text: 'Each Squidello is stuffed with premium polyester fiberfill and approximately 14,000 hand stitches of pure love. Our Comfort Lab rates it 9.4/10 on the Squishability Index. The 0.6 deduction is because it\'s not an actual cloud.'
+  },
+  wash: {
+    img: 'images/washing-machine.jpg',
+    title: 'Machine Washable!',
+    text: 'Unlike the actual Ciello slipcovers, these can survive literally anything. We tested one in a volcano. It came out softer. (Do not actually put in volcano. Sara will be upset.)'
+  },
+  storage: {
+    img: 'images/treasure-chest-squid.jpg',
+    title: 'Hidden Tentacle Storage',
+    text: 'Each tentacle has a secret zippered compartment perfect for storing snacks, AirPods, or your hopes and dreams. The treasure chest model has room for an entire squid inside. It\'s squids all the way down.'
+  },
+  modular: {
+    img: 'images/turtle-coral.jpg',
+    title: 'Fully Modular Creatures',
+    text: 'Start with a solo squid. Add tentacles over time. Upgrade to an octopus. Eventually, achieve your final form: a full crochet sectional that is also somehow alive. Just like the real Ciello, but with more personality.'
+  },
+  ring: {
+    img: 'images/ring-closeup.jpg',
+    title: 'The One Ring to Crochet Them All',
+    text: 'Sam\'s personal request. A crocheted Ring of Power. It doesn\'t grant invisibility, but it DOES grant approximately 3-5 compliments per day. One ring to rule them all, one ring to bind them, one ring to crochet them all and in the softness find them.'
+  },
+  secret: {
+    img: 'images/squid-front-big.jpg',
+    title: 'You Found the Secret!',
+    text: 'Happy April Fools\' Day from the Cozey Tech team! No, we\'re not actually selling crochet squids. But Sara\'s crochet game IS that good. "This is my fav part of the hobby, when I see my crafts bring joy to others." \u2014 Sara Shin, Crochet Artisan & Cozey Legend \ud83e\udef6\ud83c\udffb'
+  }
+};
+
+function showEasterEgg(key) {
+  const ee = easterEggs[key];
+  if (!ee) return;
+  document.getElementById('eeImg').src = ee.img;
+  document.getElementById('eeTitle').textContent = ee.title;
+  document.getElementById('eeText').textContent = ee.text;
+  document.getElementById('easterEggOverlay').classList.add('show');
+}
+
+function closeEasterEgg(event) {
+  if (event && event.target !== document.getElementById('easterEggOverlay') && !event.target.classList.contains('easter-egg-close')) return;
+  document.getElementById('easterEggOverlay').classList.remove('show');
+}
+
+// ── Konami Code: arrow up up down down left right left right B A ─────
+const konamiCode = [38,38,40,40,37,39,37,39,66,65];
+let konamiIdx = 0;
+document.addEventListener('keydown', (e) => {
+  if (e.keyCode === konamiCode[konamiIdx]) {
+    konamiIdx++;
+    if (konamiIdx === konamiCode.length) {
+      konamiIdx = 0;
+      // Rain crochet creatures
+      const creatures = [
+        'images/squid-small.jpg','images/cream-octopus.jpg','images/cloud-1.jpg',
+        'images/bear-heart.jpg','images/penguin.jpg','images/boba-tea.jpg',
+        'images/cookie-milk.jpg','images/pig-planter.jpg'
+      ];
+      for (let i = 0; i < 25; i++) {
+        const el = document.createElement('img');
+        el.src = creatures[Math.floor(Math.random()*creatures.length)];
+        el.style.cssText = 'position:fixed;top:-100px;left:'+Math.random()*100+'vw;width:'+(40+Math.random()*50)+'px;z-index:9999;pointer-events:none;border-radius:8px;animation:crochetFall '+(2+Math.random()*3)+'s linear forwards;';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 5500);
+      }
+      if (!document.getElementById('fallStyle')) {
+        const style = document.createElement('style');
+        style.id = 'fallStyle';
+        style.textContent = '@keyframes crochetFall{0%{transform:translateY(0) rotate(0deg);opacity:1}80%{opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}';
+        document.head.appendChild(style);
+      }
+      showToast('🦑 KONAMI CODE ACTIVATED! Sara\'s creatures are raining from the sky!');
+    }
+  } else {
+    konamiIdx = 0;
+  }
+});
+
+// ── Console Easter Egg ───────────────────────────────
+console.log('%c🦑 SQUIDELLO BY SARA SHIN 🦑', 'font-size:24px; font-weight:bold; color:#E8836B;');
+console.log('%cHappy April Fools from Cozey Tech!', 'font-size:14px; color:#666;');
+console.log('%c"this is my fav part of the hobby, when i see my crafts bring joy to others"', 'font-size:12px; color:#999; font-style:italic;');
+console.log('%c— Sara Shin', 'font-size:12px; color:#999;');
+</script>
+
+</body>
+</html>
